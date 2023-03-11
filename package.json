@@ -1,0 +1,21 @@
+{
+  "name": "cli-commit-assistant",
+  "version": "1.0.0",
+  "description": "CLI for helping you to create semantic commits easier",
+  "type": "module",
+  "bin": {
+    "commit-assistant": "./src/index.js"
+  },
+  "main": "index.js",
+  
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@clack/prompts": "0.6.3",
+    "picocolors": "1.0.0"
+  }
+}
