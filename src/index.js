@@ -66,11 +66,9 @@ ${colors.gray(`If the answer is yes, you should create a "BREAKING CHANGE" commi
 let commit = `${emoji} ${commitType}: ${commitMsg}${breakingChange ? ' [breaking change]' : ''}`;
 
 const shouldContinue = await confirm({
-  message: `${colors.cyan('Do you want to create a commit with the following message?')}
+  message: `${colors.cyan('You are about to create a commit with the following message. Do you confirm?')}
 
-${colors.green(colors.bold(commit))}
-
-${colors.cyan('Do you confirm?')}`
+${colors.green(colors.bold(commit))}`
 });
 
 if (!shouldContinue) {
