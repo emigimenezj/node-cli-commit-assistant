@@ -75,7 +75,7 @@ if (release) {
   breakingChange = await confirm({
     initialValue: false,
     message: `${colors.cyan('There are changes in this commits that break the compatibility?')}
-${colors.gray(`If the answer is yes, you should create a "BREAKING CHANGE" commit type and when you made a release it will publish a new major version.`)}`
+${colors.yellow(`If the answer is yes, you should create a "BREAKING CHANGE" commit type and when you made a release it will publish a new major version.`)}`
   });
   if (isCancel(breakingChange)) {
      outro(colors.yellow("Leaving assistant..."));
