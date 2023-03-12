@@ -1,4 +1,5 @@
-import { intro, outro, text, select, confirm, multiselect } from '@clack/prompts';
+import { isCancel, TextPrompt } from '@clack/core';
+import { intro, outro, text, select, confirm, multiselect, group } from '@clack/prompts';
 import colors from 'picocolors';
 
 
@@ -33,6 +34,11 @@ if (stagedFiles.length === 0 && changedFiles.length > 0) {
     }))
   });
 
+  if (isCancel(files)) {
+     outro(colors.yellow("Leaving assistant..."));
+    process.exit(1);
+  }
+
   await gitAdd({ files });
 }
 
@@ -44,6 +50,11 @@ const commitType = await select({
   }))
 });
 
+if (isCancel(commitType)) {
+   outro(colors.yellow("Leaving assistant..."));
+  process.exit(1);
+}
+
 const commitMsg = await text({
   message: "Introduce the commit's message:",
   placeholder: 'Add new feature...',
@@ -51,6 +62,11 @@ const commitMsg = await text({
     if (value.length === 0) return "Commits cannot have an empty message..."
   }
 });
+
+if (isCancel(commitMsg)) {
+   outro(colors.yellow("Leaving assistant..."));
+  process.exit(1);
+}
 
 const { emoji, release } = COMMIT_TYPES[commitType];
 
@@ -61,15 +77,29 @@ if (release) {
     message: `${colors.cyan('There are changes in this commits that break the compatibility?')}
 ${colors.gray(`If the answer is yes, you should create a "BREAKING CHANGE" commit type and when you made a release it will publish a new major version.`)}`
   });
+  if (isCancel(breakingChange)) {
+     outro(colors.yellow("Leaving assistant..."));
+    process.exit(1);
+  }
+  
 }
 
 let commit = `${emoji} ${commitType}: ${commitMsg}${breakingChange ? ' [breaking change]' : ''}`;
 
-const shouldContinue = await confirm({
-  message: `${colors.cyan('You are about to create a commit with the following message. Do you confirm?')}
+intro();
 
-${colors.green(colors.bold(commit))}`
+const shouldContinue = await confirm({
+  message: `${colors.cyan(`You are about to create a commit with the following message.`)}
+
+    ${colors.green(colors.bold(commit))}
+  
+    ${colors.cyan('Do you confirm?')}`
 });
+
+if (isCancel(shouldContinue)) {
+   outro(colors.yellow("Leaving assistant..."));
+  process.exit(1);
+}
 
 if (!shouldContinue) {
   outro(colors.yellow("None commit has been created."));
