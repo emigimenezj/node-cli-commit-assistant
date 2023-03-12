@@ -26,7 +26,7 @@ try {
 if (stagedFiles.length === 0 && changedFiles.length > 0) {
 
   const files = await multiselect({
-    message: colors.cyan('Select the files do you want to add to the staging area:'),
+    message: colors.cyan('Select the files you want to add to the staging area:'),
     options: changedFiles.map(file => ({
       value: file,
       label: file
@@ -34,25 +34,19 @@ if (stagedFiles.length === 0 && changedFiles.length > 0) {
   });
 
   await gitAdd({ files });
-
-  //outro(colors.red("Error: there is no files staged for commit."));
-  //process.exit(1);
 }
-
-console.log({ changedFiles });
-console.log({ stagedFiles });
-
-const commitMsg = await text({
-  message: "Introduce the commit's message:",
-  placeholder: 'Add new feature'
-});
 
 const commitType = await select({
   message: colors.cyan("Select the commit's type:"),
-  options: Object.entries(COMMIT_TYPES).map( ([key, value]) => ({
+  options: Object.entries(COMMIT_TYPES).map(([key, value]) => ({
     value: key,
     label: `${value.emoji} ${key.padEnd(8, ' ')} · ${value.description}`
-  }) )
+  }))
+});
+
+const commitMsg = await text({
+  message: "Introduce the commit's message:",
+  placeholder: 'Add new feature...'
 });
 
 const { emoji, release } = COMMIT_TYPES[commitType];
@@ -63,7 +57,7 @@ if (release) {
     initialValue: false,
     message: `${colors.cyan('There are changes in this commits that break the compatibility?')}
 ${colors.gray(`If the answer is yes, you should create a "BREAKING CHANGE" commit type and when you made a release it will publish a new major version.`)}`
-  })
+  });
 }
 
 let commit = `${emoji} ${commitType}: ${commitMsg}${breakingChange ? ' [breaking change]' : ''}`;
