@@ -1,14 +1,15 @@
 {
-  "name": "cli-commit-assistant",
-  "version": "1.0.0",
+  "name": "emi-commit-assistant",
+  "version": "0.0.1",
   "description": "CLI for helping you to create semantic commits easier",
   "type": "module",
   "bin": {
-    "commit-assistant": "./src/index.js"
+    "emico": "./src/bin.js"
   },
   "main": "index.js",
   
   "scripts": {
+    "co": "emico",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -17,5 +18,8 @@
   "dependencies": {
     "@clack/prompts": "0.6.3",
     "picocolors": "1.0.0"
+  },
+  "devDependencies": {
+    "emico": "./"
   }
 }
