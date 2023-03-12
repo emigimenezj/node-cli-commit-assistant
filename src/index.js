@@ -46,7 +46,10 @@ const commitType = await select({
 
 const commitMsg = await text({
   message: "Introduce the commit's message:",
-  placeholder: 'Add new feature...'
+  placeholder: 'Add new feature...',
+  validate(value) {
+    if (value.length === 0) return "Commits cannot have an empty message..."
+  }
 });
 
 const { emoji, release } = COMMIT_TYPES[commitType];
