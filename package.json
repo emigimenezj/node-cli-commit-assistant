@@ -1,6 +1,6 @@
 {
   "name": "emi-commit-assistant",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "CLI for helping you to create semantic commits easier",
   "type": "module",
   "bin": {
